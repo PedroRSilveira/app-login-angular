@@ -5,6 +5,7 @@ import { PrimaryInputComponent } from '../../components/primary-input/primary-in
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { ToastrService } from 'ngx-toastr';
+import { passwordMatchValidator } from '../../Validators/password-match.validator';
 
 interface SignupForm {
   name: FormControl,
@@ -40,13 +41,13 @@ export class SignupComponent {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    })
+    }, { validators : passwordMatchValidator } )
   }
 
   submit() {
-    this.service.login(this.signupForm.value.email, this.signupForm.value.password).subscribe({
-      next: () => this.toastService.success("Login feito com sucesso"),
-      error: () => this.toastService.error("Erro ao realizar login")
+    this.service.signup(this.signupForm.value.name, this.signupForm.value.email, this.signupForm.value.password).subscribe({
+      next: () => this.toastService.success("Cadastro feito com sucesso"),
+      error: () => this.toastService.error("Erro ao realizar cadastro")
     })
   }
 
